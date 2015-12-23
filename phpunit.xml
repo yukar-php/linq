@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="vendor/autoload.php"
+    processIsolation="false"
+    verbose="true"
+    strict="false"
+    colors="true">
+    <testsuites>
+        <testsuite name="PHPUnit">
+            <!-- テストケースディレクトリ -->
+            <directory>tests/src</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <!-- コードカバレッジ率 -->
+        <log
+            type="coverage-html"
+            target="tests/metrics/coverage"
+            charset="UTF-8"
+            yui="true"
+            highlight="true"
+            lowUpperBound="35"
+            highLowerBound="70" />
+    </logging>
+
+    <filter>
+        <!-- コードカバレッジ測定対象から除外 -->
+        <blacklist>
+            <directory suffix=".php">vendor</directory>
+        </blacklist>
+    </filter>
+</phpunit>

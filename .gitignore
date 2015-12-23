@@ -1,0 +1,9 @@
+.DS_Store
+thumb.db
+composer.lock
+.*
+!.htaccess
+!.gitignore
+!.gitkeep
+vendor/*
+tests/metrics/*
