@@ -113,7 +113,7 @@ trait TSearch
         return $result[0];
     }
 
-    private function getArrayObject(\ArrayObject $source, \Closure $predicate = null)
+    private function getArrayObject(\ArrayObject $source, \Closure $predicate = null): \ArrayObject
     {
         return ($predicate instanceof \Closure) ? $this->where($source, $predicate) : $source;
     }
