@@ -56,4 +56,25 @@ class DictionaryObjectTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\OutOfBoundsException');
         $dic_obj->offsetGet("key");
     }
+
+    public function testTwiceAppend()
+    {
+        $dic_obj = new DictionaryObject();
+        $dic_obj->append(new KeyValuePair("key", "value"));
+        $dic_obj->offsetSet("key2", "value2");
+
+        $result = $dic_obj->getDictionaryCopy();
+
+        $this->assertCount(2, $result);
+        $this->assertEquals([ "key" => "value", "key2" => "value2" ], $result);
+    }
+
+    public function testTwiceAppendFailed()
+    {
+        $dic_obj = new DictionaryObject();
+        $dic_obj->offsetSet(1, "value2");
+
+        $this->setExpectedException('\UnexpectedValueException');
+        $dic_obj->append(new KeyValuePair("key", "value"));
+    }
 }

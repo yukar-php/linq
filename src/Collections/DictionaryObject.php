@@ -7,6 +7,8 @@ namespace Yukar\Linq\Collections;
 class DictionaryObject extends \ArrayObject
 {
     private $key_list = [];
+    private $key_type = null;
+    private $value_type = null;
 
     /**
      * DictionaryObject クラスの新しいインスタンスを初期化します。
@@ -42,7 +44,7 @@ class DictionaryObject extends \ArrayObject
     public function offsetSet($key, $value)
     {
         $this->addKeyList($key);
-        parent::offsetSet($this->count(), new KeyValuePair($key, $value));
+        ($this->isAllowableTypes($key, $value) === true) && parent::offsetSet($this->count(), new KeyValuePair($key, $value));
     }
 
     /**
@@ -84,6 +86,22 @@ class DictionaryObject extends \ArrayObject
         $this->unsetKeyListValue($key);
     }
 
+    /**
+     * シーケンスの内容を連想配列として取得します。
+     *
+     * @return array シーケンスの連想配列
+     */
+    public function getDictionaryCopy()
+    {
+        $hash_list = [];
+
+        foreach ($this->getIterator() as $value) {
+            $hash_list[$value->getKey()] = $value->getValue();
+        }
+
+        return $hash_list;
+    }
+
     private function addKeyList($key)
     {
         $this->key_list[$key] = $this->count();
@@ -97,5 +115,26 @@ class DictionaryObject extends \ArrayObject
     private function unsetKeyListValue($key)
     {
         unset($this->key_list[$key]);
+    }
+
+    private function setDictionaryTypes($key, $value)
+    {
+        if ($this->count() === 0) {
+            $this->key_type = gettype($key);
+            $this->value_type = gettype($value);
+
+            return true;
+        }
+
+        return ($this->key_type === gettype($key) && $this->value_type === gettype($value));
+    }
+
+    private function isAllowableTypes($key, $value)
+    {
+        if ($this->setDictionaryTypes($key, $value) === false) {
+            throw new \UnexpectedValueException();
+        }
+
+        return true;
     }
 }
