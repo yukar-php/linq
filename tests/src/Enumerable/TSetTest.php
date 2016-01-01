@@ -1,6 +1,8 @@
 <?php
 namespace Yukar\Linq\Tests\Enumerable;
 
+use Yukar\Linq\Collections\KeyValuePair;
+
 class TSetTest extends \PHPUnit_Framework_TestCase
 {
     public function providerExcept()
@@ -12,6 +14,8 @@ class TSetTest extends \PHPUnit_Framework_TestCase
             [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'a' ], [ 'b', 'c' ] ],
             // 論理型
             [ [ true, false ], [ false, true ], [] ],
+            // オブジェクト型
+            [ [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value') ], [] ],
             // 型混合
             [ [ 0, false, '0', 0.0, null ], [ 0 ], [ false, null ] ],
             // 型混合
@@ -45,6 +49,8 @@ class TSetTest extends \PHPUnit_Framework_TestCase
             [ [ 'a', 'b', 'c' ], [ 'a', 'c', 'x' ], [ 'a', 'c' ] ],
             // 論理型
             [ [ true, false ], [ false, true ], [ true, false ] ],
+            // オブジェクト型
+            [ [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value') ] ],
             // 型混合
             [ [ 0, false, '0', 0.0, null ], [ 0 ], [ 0, '0', 0.0 ] ],
             // 型混合
@@ -78,6 +84,8 @@ class TSetTest extends \PHPUnit_Framework_TestCase
             [ [ 'a', 'b', 'c' ], [ 'a', 'c', 'x' ], [ 'a', 'b', 'c', 'x' ] ],
             // 論理型
             [ [ true, false ], [ false, true ], [ true, false ] ],
+            // オブジェクト型
+            [ [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value') ] ],
             // 型混合
             [ [ 0, false, '0', 0.0, null ], [ 0 ], [ 0, null ] ],
             // 型混合
@@ -111,6 +119,8 @@ class TSetTest extends \PHPUnit_Framework_TestCase
             [ [ 'a', 'b', 'c' ], [ 'a', 'c', 'x' ], [ 'a', 'b', 'c', 'a', 'c', 'x' ] ],
             // 論理型
             [ [ true, false ], [ false, true ], [ true, false, false, true ] ],
+            // オブジェクト型
+            [ [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value'), new KeyValuePair('key', 'value') ] ],
             // 型混合
             [ [ 0, false, '0', 0.0, null ], [ 0 ], [ 0, false, '0', 0.0, null, 0 ] ],
             // 型混合
@@ -181,6 +191,8 @@ class TSetTest extends \PHPUnit_Framework_TestCase
             [ [ 1, 'a' ], [ 1, 'a', 3 ], false ],
             // 長さが違うが、含まれる内容は同じ
             [ [ true, 1, 'a' ], [ true, 1 ], false ],
+            // オブジェクト型
+            [ [ new KeyValuePair('key', 'value') ], [ new KeyValuePair('key', 'value') ], true ],
             // 型混合配列
             [ [ true, false, 'x' ], [ true, false, 'x' ], true ]
         ];
