@@ -60,9 +60,9 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGenerateRange($start, $count, $expected)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCollection');
-        $mock->expects($this->any())->method('generateRange')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('range')->will($this->returnValue($expected));
 
-        $result = $mock->generateRange($start, $count);
+        $result = $mock->range($start, $count);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -93,10 +93,10 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGenerateRangeErrors($expectedException, $start, $count)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCollection');
-        $mock->expects($this->any())->method('generateRange');
+        $mock->expects($this->any())->method('range');
 
         $this->setExpectedException($expectedException);
-        $mock->generateRange($start, $count);
+        $mock->range($start, $count);
     }
 
     public function providerRepeat()

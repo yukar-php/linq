@@ -36,7 +36,7 @@ trait TCollection
      *
      * @return \ArrayObject 連続した整数の範囲を含むシーケンス
      */
-    public function generateRange(int $start, int $count): \ArrayObject
+    public function range(int $start, int $count): \ArrayObject
     {
         if ($count < 0) {
             throw new \OutOfRangeException();
