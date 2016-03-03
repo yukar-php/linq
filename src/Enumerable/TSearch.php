@@ -6,7 +6,10 @@ namespace Yukar\Linq\Enumerable;
  */
 trait TSearch
 {
-    use TQuery { where as private; }
+    use TQuery
+    {
+        where as private;
+    }
 
     /**
      * シーケンスのすべての要素が条件を満たしているかどうかを判断します。

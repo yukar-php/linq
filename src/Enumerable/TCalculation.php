@@ -23,7 +23,7 @@ trait TCalculation
      */
     public function sum(\ArrayObject $source, \Closure $selector = null)
     {
-        if ($this->all($source, function ($v) { return is_scalar($v); }) === false) {
+        if ($this->all($source, $this->getIsScalarClosure()) === false) {
             throw new \UnexpectedValueException();
         }
 
@@ -53,7 +53,7 @@ trait TCalculation
      */
     public function max(\ArrayObject $source, \Closure $selector = null)
     {
-        if ($this->all($source, function ($v) { return is_scalar($v); }) === false) {
+        if ($this->all($source, $this->getIsScalarClosure()) === false) {
             throw new \UnexpectedValueException();
         }
 
@@ -70,7 +70,7 @@ trait TCalculation
      */
     public function min(\ArrayObject $source, \Closure $selector = null)
     {
-        if ($this->all($source, function ($v) { return is_scalar($v); }) === false) {
+        if ($this->all($source, $this->getIsScalarClosure()) === false) {
             throw new \UnexpectedValueException();
         }
 
@@ -117,5 +117,12 @@ trait TCalculation
     private function getFilteredArrayObject(\ArrayObject $source, \Closure $predicate = null): \ArrayObject
     {
         return ($predicate instanceof \Closure) ? $this->where($source, $predicate) : $source;
+    }
+
+    private function getIsScalarClosure(): \Closure
+    {
+        return function ($v) {
+            return is_scalar($v);
+        };
     }
 }
