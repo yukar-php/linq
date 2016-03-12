@@ -14,7 +14,7 @@ trait TExtract
      *
      * @return \ArrayObject 入力シーケンスで指定されたインデックスの後に出現する要素を含むシーケンス
      */
-    public function skip(\ArrayObject $source, int $count): \ArrayObject
+    public function skipOf(\ArrayObject $source, int $count): \ArrayObject
     {
         return $this->getSlicedArrayObject(
             $source,
@@ -30,7 +30,7 @@ trait TExtract
      *
      * @return \ArrayObject テストに初めて合格しない要素から入力シーケンスの最後の要素までのシーケンス
      */
-    public function skipWhile(\ArrayObject $source, \Closure $predicate): \ArrayObject
+    public function skipWhileOf(\ArrayObject $source, \Closure $predicate): \ArrayObject
     {
         $skipped = new \ArrayObject($source->getArrayCopy());
 
@@ -53,7 +53,7 @@ trait TExtract
      *
      * @return \ArrayObject 入力シーケンスの先頭から、指定された数の要素を含むシーケンス
      */
-    public function take(\ArrayObject $source, int $count): \ArrayObject
+    public function takeOf(\ArrayObject $source, int $count): \ArrayObject
     {
         return $this->getSlicedArrayObject(
             $source,
@@ -70,7 +70,7 @@ trait TExtract
      *
      * @return \ArrayObject 入力シーケンスの先頭の要素からテストに初めて合格しない要素の前に出現する要素までを含むシーケンス
      */
-    public function takeWhile(\ArrayObject $source, \Closure $predicate): \ArrayObject
+    public function takeWhileOf(\ArrayObject $source, \Closure $predicate): \ArrayObject
     {
         $taken = new \ArrayObject([]);
 

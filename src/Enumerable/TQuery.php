@@ -15,7 +15,7 @@ trait TQuery
      *
      * @return \ArrayObject 各要素に対して変換関数を呼び出した結果として得られる要素を含むシーケンス
      */
-    public function select(\ArrayObject $source, \Closure $selector): \ArrayObject
+    public function selectOf(\ArrayObject $source, \Closure $selector): \ArrayObject
     {
         $filtering = new \ArrayObject([]);
         
@@ -33,7 +33,7 @@ trait TQuery
      *
      * @return \ArrayObject ソースとなるシーケンスの一意の要素を格納するシーケンス
      */
-    public function distinct(\ArrayObject $source): \ArrayObject
+    public function distinctOf(\ArrayObject $source): \ArrayObject
     {
         return new \ArrayObject(array_unique($source->getArrayCopy(), SORT_REGULAR));
     }
@@ -48,7 +48,7 @@ trait TQuery
      * @return \ArrayObject 各ソース要素が条件に当てはまるかどうかをテストする関数。
      * この関数の 2 つ目のパラメーターは、ソース要素のインデックスを表します。
      */
-    public function where(\ArrayObject $source, \Closure $predicate): \ArrayObject
+    public function whereOf(\ArrayObject $source, \Closure $predicate): \ArrayObject
     {
         $filtering = new \ArrayObject([]);
         

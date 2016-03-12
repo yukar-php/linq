@@ -14,7 +14,7 @@ trait TSet
      *
      * @return \ArrayObject 2 つのシーケンスの要素の差集合が格納されているシーケンス
      */
-    public function except(\ArrayObject $first, \ArrayObject $second): \ArrayObject
+    public function exceptOf(\ArrayObject $first, \ArrayObject $second): \ArrayObject
     {
         return $this->newArrayObject(array_diff($first->getArrayCopy(), $second->getArrayCopy()));
     }
@@ -27,7 +27,7 @@ trait TSet
      *
      * @return \ArrayObject 2 つのシーケンスの積集合を構成する要素が格納されているシーケンス
      */
-    public function intersect(\ArrayObject $first, \ArrayObject $second): \ArrayObject
+    public function intersectOf(\ArrayObject $first, \ArrayObject $second): \ArrayObject
     {
         return $this->newArrayObject(array_intersect($first->getArrayCopy(), $second->getArrayCopy()));
     }
@@ -40,9 +40,9 @@ trait TSet
      *
      * @return \ArrayObject 2 つの入力シーケンスの要素 (重複する要素は除く) を格納しているシーケンス
      */
-    public function union(\ArrayObject $first, \ArrayObject $second): \ArrayObject
+    public function unionOf(\ArrayObject $first, \ArrayObject $second): \ArrayObject
     {
-        return $this->newArrayObject(array_unique($this->concat($first, $second)->getArrayCopy()));
+        return $this->newArrayObject(array_unique($this->concatOf($first, $second)->getArrayCopy()));
     }
 
     /**
@@ -53,7 +53,7 @@ trait TSet
      *
      * @return \ArrayObject 2 つの入力シーケンスの連結された要素が格納されているシーケンス
      */
-    public function concat(\ArrayObject $first, \ArrayObject $second): \ArrayObject
+    public function concatOf(\ArrayObject $first, \ArrayObject $second): \ArrayObject
     {
         return $this->newArrayObject(array_merge($first->getArrayCopy(), $second->getArrayCopy()));
     }
@@ -67,7 +67,7 @@ trait TSet
      *
      * @return \ArrayObject 2 つの入力シーケンスのマージされた要素が格納されているシーケンス
      */
-    public function zip(\ArrayObject $first, \ArrayObject $second, \Closure $resultSelector): \ArrayObject
+    public function zipOf(\ArrayObject $first, \ArrayObject $second, \Closure $resultSelector): \ArrayObject
     {
         $zipped = new \ArrayObject([]);
         $size = ($first->count() > $second->count()) ? $second->count() : $first->count();
@@ -88,13 +88,13 @@ trait TSet
      * @return bool 2 つのソースシーケンスが同じ長さで、それらに対応する要素が等しい場合は true。
      * それ以外の場合は false。
      */
-    public function sequenceEqual(\ArrayObject $first, \ArrayObject $second): bool
+    public function sequenceEqualOf(\ArrayObject $first, \ArrayObject $second): bool
     {
         if ($first->count() != $second->count()) {
             return false;
         }
 
-        return ($this->except($first, $second)->count() === 0);
+        return ($this->exceptOf($first, $second)->count() === 0);
     }
 
     private function newArrayObject(array $object)

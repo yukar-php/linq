@@ -25,9 +25,9 @@ class TQueryTest extends \PHPUnit_Framework_TestCase
     public function testSelect($param, $expected, $selector)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TQuery');
-        $mock->expects($this->any())->method('select')->will($this->returnValue(new \ArrayObject()));
+        $mock->expects($this->any())->method('selectOf')->will($this->returnValue(new \ArrayObject()));
         
-        $result = $mock->select(new \ArrayObject($param), $selector);
+        $result = $mock->selectOf(new \ArrayObject($param), $selector);
         
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -60,10 +60,10 @@ class TQueryTest extends \PHPUnit_Framework_TestCase
     public function testSelectErrors($expectedException, $source, $selector)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TQuery');
-        $mock->expects($this->any())->method('select')->will($this->returnValue(new \ArrayObject()));
+        $mock->expects($this->any())->method('selectOf')->will($this->returnValue(new \ArrayObject()));
        
         $this->setExpectedException($expectedException);
-        $mock->select($source, $selector);
+        $mock->selectOf($source, $selector);
     }
     
     public function providerDistinct()
@@ -100,9 +100,9 @@ class TQueryTest extends \PHPUnit_Framework_TestCase
     public function testDistinct($param, $expected)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TQuery');
-        $mock->expects($this->any())->method('distinct')->will($this->returnValue(new \ArrayObject()));
+        $mock->expects($this->any())->method('distinctOf')->will($this->returnValue(new \ArrayObject()));
         
-        $result = $mock->distinct(new \ArrayObject($param));
+        $result = $mock->distinctOf(new \ArrayObject($param));
         
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -137,10 +137,10 @@ class TQueryTest extends \PHPUnit_Framework_TestCase
     public function testDistinctErrors($expectedException, $source)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TQuery');
-        $mock->expects($this->any())->method('select')->will($this->returnValue(new \ArrayObject()));
+        $mock->expects($this->any())->method('distinctOf')->will($this->returnValue(new \ArrayObject()));
        
         $this->setExpectedException($expectedException);
-        $mock->distinct($source);
+        $mock->distinctOf($source);
     }
     
     public function providerWhere()
@@ -159,9 +159,9 @@ class TQueryTest extends \PHPUnit_Framework_TestCase
     public function testWhere($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TQuery');
-        $mock->expects($this->any())->method('where')->will($this->returnValue(new \ArrayObject()));
+        $mock->expects($this->any())->method('whereOf')->will($this->returnValue(new \ArrayObject()));
         
-        $result = $mock->where(new \ArrayObject($param), $predicate);
+        $result = $mock->whereOf(new \ArrayObject($param), $predicate);
         
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -198,10 +198,10 @@ class TQueryTest extends \PHPUnit_Framework_TestCase
     public function testWhereErrors($expectedException, $source, $predicate, $expected = null)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TQuery');
-        $mock->expects($this->any())->method('where')->will($this->returnValue(new \ArrayObject()));
+        $mock->expects($this->any())->method('whereOf')->will($this->returnValue(new \ArrayObject()));
        
         $this->setExpectedException($expectedException);
-        $result = $mock->where($source, $predicate);
+        $result = $mock->whereOf($source, $predicate);
         
         if ($expectedException !== null) {
             $this->assertInstanceOf('\ArrayObject', $result);

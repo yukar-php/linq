@@ -25,9 +25,9 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testSkip($param, $expected, $count)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('skip')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('skipOf')->will($this->returnValue($expected));
 
-        $result = $mock->skip(new \ArrayObject($param), $count);
+        $result = $mock->skipOf(new \ArrayObject($param), $count);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -58,10 +58,10 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testSkipErrors($expectedException, $source, $count)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('skip');
+        $mock->expects($this->any())->method('skipOf');
 
         $this->setExpectedException($expectedException);
-        $mock->skip($source, $count);
+        $mock->skipOf($source, $count);
     }
 
     public function providerSkipWhile()
@@ -86,9 +86,9 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testSkipWhile($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('skipWhile')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('skipWhileOf')->will($this->returnValue($expected));
 
-        $result = $mock->skipWhile(new \ArrayObject($param), $predicate);
+        $result = $mock->skipWhileOf(new \ArrayObject($param), $predicate);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -119,10 +119,10 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testSkipWhileErrors($expectedException, $source, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('skipWhile');
+        $mock->expects($this->any())->method('skipWhileOf');
 
         $this->setExpectedException($expectedException);
-        $mock->skipWhile($source, $predicate);
+        $mock->skipWhileOf($source, $predicate);
     }
 
     public function providerTake()
@@ -147,9 +147,9 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testTake($param, $expected, $count)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('take')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('takeOf')->will($this->returnValue($expected));
 
-        $result = $mock->take(new \ArrayObject($param), $count);
+        $result = $mock->takeOf(new \ArrayObject($param), $count);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -180,10 +180,10 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testTakeErrors($expectedException, $source, $count)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('take');
+        $mock->expects($this->any())->method('takeOf');
 
         $this->setExpectedException($expectedException);
-        $mock->take($source, $count);
+        $mock->takeOf($source, $count);
     }
 
     public function providerTakeWhile()
@@ -208,9 +208,9 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testTakeWhile($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('skipWhile')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('skipWhileOf')->will($this->returnValue($expected));
 
-        $result = $mock->takeWhile(new \ArrayObject($param), $predicate);
+        $result = $mock->takeWhileOf(new \ArrayObject($param), $predicate);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -241,9 +241,9 @@ class TExtractTest extends \PHPUnit_Framework_TestCase
     public function testTakeWhileErrors($expectedException, $source, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TExtract');
-        $mock->expects($this->any())->method('takeWhile');
+        $mock->expects($this->any())->method('takeWhileOf');
 
         $this->setExpectedException($expectedException);
-        $mock->takeWhile($source, $predicate);
+        $mock->takeWhileOf($source, $predicate);
     }
 }

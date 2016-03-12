@@ -13,7 +13,7 @@ trait TInspection
      *
      * @return \ArrayObject 入力シーケンスのコピーとなるシーケンス
      */
-    public function asEnumerable(\ArrayObject $source): \ArrayObject
+    public function asEnumerableOf(\ArrayObject $source): \ArrayObject
     {
         return new \ArrayObject($source->getArrayCopy());
     }
@@ -26,7 +26,7 @@ trait TInspection
      *
      * @return \ArrayObject 入力シーケンスの各要素を指定された型にキャストした要素を格納するシーケンス
      */
-    public function cast(\ArrayObject $source, string $type): \ArrayObject
+    public function castOf(\ArrayObject $source, string $type): \ArrayObject
     {
         $dst = TCollection::emptyList();
 
@@ -50,7 +50,7 @@ trait TInspection
      * @return \ArrayObject 入力シーケンスの各要素を指定された型にキャストした要素を格納するシーケンス。
      *                      キャストに失敗した要素は含まれません。
      */
-    public function ofType(\ArrayObject $source, string $type): \ArrayObject
+    public function ofTypeOf(\ArrayObject $source, string $type): \ArrayObject
     {
         $dst = TCollection::emptyList();
 

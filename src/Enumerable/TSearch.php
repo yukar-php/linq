@@ -8,7 +8,7 @@ trait TSearch
 {
     use TQuery
     {
-        where as private;
+        whereOf as private;
     }
 
     /**
@@ -19,9 +19,9 @@ trait TSearch
      *
      * @return bool シーケンスのすべての要素がテストに合格する場合は true。それ以外の場合は false。
      */
-    public function all(\ArrayObject $source, \Closure $predicate): bool
+    public function allOf(\ArrayObject $source, \Closure $predicate): bool
     {
-        return $this->where($source, $predicate)->count() === $source->count();
+        return $this->whereOf($source, $predicate)->count() === $source->count();
     }
 
     /**
@@ -32,9 +32,9 @@ trait TSearch
      *
      * @return bool シーケンスの要素がテストに合格する場合は true。それ以外の場合は false。
      */
-    public function any(\ArrayObject $source, \Closure $predicate): bool
+    public function anyOf(\ArrayObject $source, \Closure $predicate): bool
     {
-        return ($this->where($source, $predicate)->count() > 0);
+        return ($this->whereOf($source, $predicate)->count() > 0);
     }
 
     /**
@@ -45,7 +45,7 @@ trait TSearch
      *
      * @return bool 指定した値を持つ要素がシーケンスに含まれている場合は true。それ以外は false。
      */
-    public function contains(\ArrayObject $source, $value): bool
+    public function containsOf(\ArrayObject $source, $value): bool
     {
         return in_array($value, $source->getArrayCopy());
     }
@@ -58,7 +58,7 @@ trait TSearch
      *
      * @return mixed シーケンス内の指定された位置にある要素
      */
-    public function elementAt(\ArrayObject $source, int $index)
+    public function elementAtOf(\ArrayObject $source, int $index)
     {
         if ($index < 0 || $index >= $source->count()) {
             throw new \OutOfRangeException();
@@ -75,7 +75,7 @@ trait TSearch
      *
      * @return mixed 指定された述語関数でテストに合格するシーケンスの最初の要素
      */
-    public function first(\ArrayObject $source, \Closure $predicate = null)
+    public function firstOf(\ArrayObject $source, \Closure $predicate = null)
     {
         $target = $this->getArrayObject($source, $predicate)->getArrayCopy();
 
@@ -90,7 +90,7 @@ trait TSearch
      *
      * @return mixed 指定された述語関数でテストに合格するシーケンスの最後の要素
      */
-    public function last(\ArrayObject $source, \Closure $predicate = null)
+    public function lastOf(\ArrayObject $source, \Closure $predicate = null)
     {
         $target = $this->getArrayObject($source, $predicate)->getArrayCopy();
 
@@ -105,9 +105,9 @@ trait TSearch
      *
      * @return mixed 条件を満たす入力シーケンスの 1 つの要素
      */
-    public function single(\ArrayObject $source, \Closure $predicate)
+    public function singleOf(\ArrayObject $source, \Closure $predicate)
     {
-        $result = $this->where($source, $predicate);
+        $result = $this->whereOf($source, $predicate);
 
         if ($result->count() !== 1) {
             throw new \LogicException();
@@ -118,6 +118,6 @@ trait TSearch
 
     private function getArrayObject(\ArrayObject $source, \Closure $predicate = null): \ArrayObject
     {
-        return ($predicate instanceof \Closure) ? $this->where($source, $predicate) : $source;
+        return ($predicate instanceof \Closure) ? $this->whereOf($source, $predicate) : $source;
     }
 }

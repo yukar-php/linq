@@ -27,9 +27,9 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('asEnumerable')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('asEnumerableOf')->will($this->returnValue($expected));
 
-        $result = $mock->asEnumerable(new \ArrayObject($param));
+        $result = $mock->asEnumerableOf(new \ArrayObject($param));
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -52,9 +52,9 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('cast')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('castOf')->will($this->returnValue($expected));
 
-        $result = $mock->cast(new \ArrayObject($source), $type);
+        $result = $mock->castOf(new \ArrayObject($source), $type);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -75,10 +75,10 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
     public function testCastErrors($expectedException, $source, $type)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('cast');
+        $mock->expects($this->any())->method('castOf');
 
         $this->setExpectedException($expectedException);
-        $mock->cast(new \ArrayObject($source), $type);
+        $mock->castOf(new \ArrayObject($source), $type);
     }
 
     public function providerOfType()
@@ -98,9 +98,9 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('ofType')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('ofTypeOf')->will($this->returnValue($expected));
 
-        $result = $mock->ofType(new \ArrayObject($source), $type);
+        $result = $mock->ofTypeOf(new \ArrayObject($source), $type);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);

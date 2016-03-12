@@ -8,9 +8,9 @@ trait TCalculation
 {
     use TSearch
     {
-        all as private;
-        first as private;
-        elementAt as private;
+        allOf as private;
+        firstOf as private;
+        elementAtOf as private;
     }
 
     /**
@@ -21,9 +21,9 @@ trait TCalculation
      *
      * @return number シーケンスの値の合計
      */
-    public function sum(\ArrayObject $source, \Closure $selector = null)
+    public function sumOf(\ArrayObject $source, \Closure $selector = null)
     {
-        if ($this->all($source, $this->getIsScalarClosure()) === false) {
+        if ($this->allOf($source, $this->getIsScalarClosure()) === false) {
             throw new \UnexpectedValueException();
         }
 
@@ -38,9 +38,9 @@ trait TCalculation
      *
      * @return float 値のシーケンスの平均値
      */
-    public function average(\ArrayObject $source, \Closure $selector = null)
+    public function averageOf(\ArrayObject $source, \Closure $selector = null)
     {
-        return $this->sum($source, $selector) / $source->count();
+        return $this->sumOf($source, $selector) / $source->count();
     }
 
     /**
@@ -51,9 +51,9 @@ trait TCalculation
      *
      * @return mixed シーケンスの最大値
      */
-    public function max(\ArrayObject $source, \Closure $selector = null)
+    public function maxOf(\ArrayObject $source, \Closure $selector = null)
     {
-        if ($this->all($source, $this->getIsScalarClosure()) === false) {
+        if ($this->allOf($source, $this->getIsScalarClosure()) === false) {
             throw new \UnexpectedValueException();
         }
 
@@ -68,9 +68,9 @@ trait TCalculation
      *
      * @return mixed シーケンスの最小値
      */
-    public function min(\ArrayObject $source, \Closure $selector = null)
+    public function minOf(\ArrayObject $source, \Closure $selector = null)
     {
-        if ($this->all($source, $this->getIsScalarClosure()) === false) {
+        if ($this->allOf($source, $this->getIsScalarClosure()) === false) {
             throw new \UnexpectedValueException();
         }
 
@@ -85,7 +85,7 @@ trait TCalculation
      *
      * @return int 述語関数の条件を満たす、シーケンス内の要素数を表す数値
      */
-    public function count(\ArrayObject $source, \Closure $predicate = null): int
+    public function countOf(\ArrayObject $source, \Closure $predicate = null): int
     {
         return $this->getFilteredArrayObject($source, $predicate)->count();
     }
@@ -98,12 +98,12 @@ trait TCalculation
      *
      * @return mixed 最終的なアキュムレータ値
      */
-    public function aggregate(\ArrayObject $source, \Closure $func)
+    public function aggregateOf(\ArrayObject $source, \Closure $func)
     {
-        $value = $this->first($source);
+        $value = $this->firstOf($source);
 
         for ($i = 1; $i < $source->count(); $i++) {
-            $value = $func($value, $this->elementAt($source, $i));
+            $value = $func($value, $this->elementAtOf($source, $i));
         }
 
         return $value;
@@ -111,12 +111,12 @@ trait TCalculation
 
     private function getSelectedArrayObject(\ArrayObject $source, \Closure $selector = null): \ArrayObject
     {
-        return ($selector instanceof \Closure) ? $this->select($source, $selector) : $source;
+        return ($selector instanceof \Closure) ? $this->selectOf($source, $selector) : $source;
     }
 
     private function getFilteredArrayObject(\ArrayObject $source, \Closure $predicate = null): \ArrayObject
     {
-        return ($predicate instanceof \Closure) ? $this->where($source, $predicate) : $source;
+        return ($predicate instanceof \Closure) ? $this->whereOf($source, $predicate) : $source;
     }
 
     private function getIsScalarClosure(): \Closure

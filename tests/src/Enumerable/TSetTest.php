@@ -31,9 +31,9 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('except')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('exceptOf')->will($this->returnValue($expected));
 
-        $result = $mock->except(new \ArrayObject($param), new \ArrayObject($second));
+        $result = $mock->exceptOf(new \ArrayObject($param), new \ArrayObject($second));
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -66,9 +66,9 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('intersect')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('intersectOf')->will($this->returnValue($expected));
 
-        $result = $mock->intersect(new \ArrayObject($param), new \ArrayObject($second));
+        $result = $mock->intersectOf(new \ArrayObject($param), new \ArrayObject($second));
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -101,9 +101,9 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('union')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('unionOf')->will($this->returnValue($expected));
 
-        $result = $mock->union(new \ArrayObject($param), new \ArrayObject($second));
+        $result = $mock->unionOf(new \ArrayObject($param), new \ArrayObject($second));
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -136,9 +136,9 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('concat')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('concatOf')->will($this->returnValue($expected));
 
-        $result = $mock->concat(new \ArrayObject($param), new \ArrayObject($second));
+        $result = $mock->concatOf(new \ArrayObject($param), new \ArrayObject($second));
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -169,9 +169,9 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('zip')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('zipOf')->will($this->returnValue($expected));
 
-        $result = $mock->zip(new \ArrayObject($param), new \ArrayObject($second), $resultSelector);
+        $result = $mock->zipOf(new \ArrayObject($param), new \ArrayObject($second), $resultSelector);
 
         $this->assertInstanceOf('\ArrayObject', $result);
         $this->assertCount($expected->count(), $result);
@@ -204,8 +204,8 @@ class TSetTest extends \PHPUnit_Framework_TestCase
     public function testSequenceEqual($param, $second, $expected)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('sequenceEqual')->will($this->returnValue($expected));
+        $mock->expects($this->any())->method('sequenceEqualOf')->will($this->returnValue($expected));
 
-        $this->assertEquals($expected, $mock->sequenceEqual(new \ArrayObject($param), new \ArrayObject($second)));
+        $this->assertEquals($expected, $mock->sequenceEqualOf(new \ArrayObject($param), new \ArrayObject($second)));
     }
 }
