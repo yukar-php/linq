@@ -13,34 +13,34 @@ interface IExtract
      *
      * @param int $count 残りの要素を返す前にスキップする要素の数
      *
-     * @return \ArrayObject 入力シーケンスで指定されたインデックスの後に出現する要素を含むシーケンス
+     * @return IEnumerable 入力シーケンスで指定されたインデックスの後に出現する要素を含むシーケンス
      */
-    public function skip(int $count): YukarLinq;
+    public function skip(int $count): IEnumerable;
 
     /**
      * 指定された条件が満たされる限り、シーケンスの要素をバイパスした後、残りの要素を返します。
      *
      * @param \Closure $predicate 各要素が条件を満たしているかどうかをテストする関数
      *
-     * @return \ArrayObject テストに初めて合格しない要素から入力シーケンスの最後の要素までのシーケンス
+     * @return IEnumerable テストに初めて合格しない要素から入力シーケンスの最後の要素までのシーケンス
      */
-    public function skipWhile(\Closure $predicate): YukarLinq;
+    public function skipWhile(\Closure $predicate): IEnumerable;
 
     /**
      * シーケンスの先頭から、指定された数の連続する要素を返します。
      *
      * @param int $count 返す要素数
      *
-     * @return \ArrayObject 入力シーケンスの先頭から、指定された数の要素を含むシーケンス
+     * @return IEnumerable 入力シーケンスの先頭から、指定された数の要素を含むシーケンス
      */
-    public function take(int $count): YukarLinq;
+    public function take(int $count): IEnumerable;
 
     /**
      * 指定された条件が満たされる限り、シーケンスから要素を返します
      *
      * @param \Closure $predicate 各要素が条件を満たしているかどうかをテストする関数
      *
-     * @return \ArrayObject 入力シーケンスの先頭の要素からテストに初めて合格しない要素の前に出現する要素までを含むシーケンス
+     * @return IEnumerable 入力シーケンスの先頭の要素からテストに初めて合格しない要素の前に出現する要素までを含むシーケンス
      */
-    public function takeWhile(\Closure $predicate): YukarLinq;
+    public function takeWhile(\Closure $predicate): IEnumerable;
 }
