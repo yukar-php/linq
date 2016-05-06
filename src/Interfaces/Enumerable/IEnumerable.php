@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Linq\Interfaces;
+namespace Yukar\Linq\Interfaces\Enumerable;
 
 /**
  * 単純な反復処理をサポートする機能を提供するインターフェイスです。

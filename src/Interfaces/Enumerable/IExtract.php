@@ -1,7 +1,5 @@
 <?php
-namespace Yukar\Linq\Interfaces;
-
-use Yukar\Linq\YukarLinq;
+namespace Yukar\Linq\Interfaces\Enumerable;
 
 /**
  * シーケンスの要素の抽出に関する処理を提供するためのインターフェイスです。

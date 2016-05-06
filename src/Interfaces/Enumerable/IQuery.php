@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Linq\Interfaces;
+namespace Yukar\Linq\Interfaces\Enumerable;
 
 /**
  * 射影や選択を行う機能を提供するためのインターフェイスです。

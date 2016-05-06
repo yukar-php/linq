@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Linq\Interfaces;
+namespace Yukar\Linq\Interfaces\Enumerable;
 
 /**
  * シーケンスの要素の操作に関する処理を提供するためのインターフェイスです。
