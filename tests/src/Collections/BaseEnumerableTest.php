@@ -77,7 +77,7 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $getter_invoker->invoke($mock));
     }
 
-    public function providerAllMethodPassed()
+    public function providerLazyEvalPassed()
     {
         return [
             [ 'sum', 6, [ 1, 2, 3 ] ],
@@ -107,11 +107,18 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
             [ 'first', 2, [ 1, 2, 3 ], function ($v) { return ($v % 2 === 0); } ],
             [ 'last', 3, [ 1, 2, 3 ], function ($v) { return ($v % 2 !== 0); } ],
             [ 'single', 2, [ 1, 2, 3 ], function ($v) { return ($v % 2 === 0); } ],
+
+            [ 'except', [ 2 ], [ 1, 2, 3 ], new \ArrayObject([ 1, 3, 5 ]) ],
+            [ 'intersect', [ 1, 3 ], [ 1, 2, 3 ], new \ArrayObject([ 1, 3, 5 ]) ],
+            [ 'union', [ 1, 2, 3, 5 ], [ 1, 2, 3 ], new \ArrayObject([ 1, 3, 5 ]) ],
+            [ 'concat', [ 1, 2, 3, 1, 3, 5 ], [ 1, 2, 3 ], new \ArrayObject([ 1, 3, 5 ]) ],
+            [ 'zip', [ 1, 6, 15 ], [ 1, 2, 3 ], new \ArrayObject([ 1, 3, 5 ]), function ($v1, $v2) { return $v1 * $v2; } ],
+            [ 'sequenceEqual', true, [ 1, 2, 3 ], new \ArrayObject([ 1, 2, 3 ]) ],
         ];
     }
 
     /**
-     * @dataProvider providerAllMethodPassed
+     * @dataProvider providerLazyEvalPassed
      */
     public function testAddToLazyEval($invoke_method, $expected, $base_list, ...$bind_params)
     {
@@ -125,7 +132,7 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider providerAllMethodPassed
+     * @dataProvider providerLazyEvalPassed
      */
     public function testGetLazyEvalList($invoke_method, $expected, $base_list, ...$bind_params)
     {
@@ -160,7 +167,7 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider providerAllMethodPassed
+     * @dataProvider providerLazyEvalPassed
      */
     public function testEvalLazy($invoke_method, $expected, $base_list, ...$bind_params)
     {
@@ -176,10 +183,55 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
         $add_invoker->invoke($object, $invoke_method, ...$bind_params);
         $eval_result = $eval_invoker->invoke($object);
 
-        $this->assertEquals(
-            is_array($expected) ? new \ArrayObject($expected) : $expected,
-            $eval_result instanceof ListObject ? $eval_result() : $eval_result
-        );
+        if (is_scalar($eval_result) === false) {
+            $prop_reflector = $reflector->getParentClass()->getProperty('list_object');
+            $prop_reflector->setAccessible(true);
+
+            $this->assertInstanceOf('Yukar\Linq\Collections\BaseEnumerable', $eval_result);
+            $this->assertEquals(new \ArrayObject($expected), $prop_reflector->getValue($object));
+        } else {
+            $this->assertEquals($expected, $eval_result);
+        }
+    }
+
+    public function providerAllMethodPassed()
+    {
+        return [
+            [ 'sum', 6, [ 1, 2, 3 ] ],
+            [ 'average', 20, [ 10, 20, 30 ] ],
+            [ 'max', 10, [ -10, 0, 10 ] ],
+            [ 'min', -10, [ -10, 0, 10 ] ],
+            [ 'count', 6, [ 1, 2, 4, 8, 16, 32 ] ],
+            [ 'aggregate', 6, [ 1, 2, 3 ], function ($r, $v) { return $r + $v; } ],
+
+            [ 'skip', [ 3, 4, 5 ], [ 1, 2, 3, 4, 5 ], 2 ],
+            [ 'skipWhile', [ 6, 9 ], [ 1, 3, 5, 6, 9 ], function ($v) { return ($v % 2 !== 0); } ],
+            [ 'take', [ 1, 2 ], [ 1, 2, 3, 4, 5 ], 2 ],
+            [ 'takeWhile', [ 1, 3, 5 ], [ 1, 3, 5, 6, 9 ], function ($v) { return ($v % 2 !== 0); } ],
+
+            [ 'asEnumerable', [ 1, 2, 3 ], [ 1, 2, 3 ] ],
+            [ 'cast', [ 1, 2, 3, 4, 5 ], [ 1, '2', 3, '4.0', 5 ], 'int' ],
+            [ 'ofType', [ 1, 2, 4, 5 ], [ 1, '2', null, '4.0', 5 ], 'int' ],
+
+            [ 'select', [ 1, 4, 9 ], [ 1, 2, 3 ], function ($value) { return $value * $value; } ],
+            [ 'distinct', [ 1, false, [ 3 ], '4', (object)5 ], [ 1, false, [ 3 ], '4', (object)5 ] ],
+            [ 'where', [ 1, 2, 3, 4, 5 ], [ 1, 2, 3, 4, 5 ], function () { return true; } ],
+
+            [ 'all', true, [ 1, 2, 3 ], function () { return true; } ],
+            [ 'any', true, [ 1, 2, 3 ], function () { return true; } ],
+            [ 'contains', true,  [ 1, 2, 3 ], 1 ],
+            [ 'elementAt', 2, [ 1, 2, 3 ], 1 ],
+            [ 'first', 2, [ 1, 2, 3 ], function ($v) { return ($v % 2 === 0); } ],
+            [ 'last', 3, [ 1, 2, 3 ], function ($v) { return ($v % 2 !== 0); } ],
+            [ 'single', 2, [ 1, 2, 3 ], function ($v) { return ($v % 2 === 0); } ],
+
+            [ 'except', [ 2 ], [ 1, 2, 3 ], new ListObject([ 1, 3, 5 ]) ],
+            [ 'intersect', [ 1, 3 ], [ 1, 2, 3 ], new ListObject([ 1, 3, 5 ]) ],
+            [ 'union', [ 1, 2, 3, 5 ], [ 1, 2, 3 ], new ListObject([ 1, 3, 5 ]) ],
+            [ 'concat', [ 1, 2, 3, 1, 3, 5 ], [ 1, 2, 3 ], new ListObject([ 1, 3, 5 ]) ],
+            [ 'zip', [ 1, 6, 15 ], [ 1, 2, 3 ], new ListObject([ 1, 3, 5 ]), function ($v1, $v2) { return $v1 * $v2; } ],
+            [ 'sequenceEqual', true, [ 1, 2, 3 ], new ListObject([ 1, 2, 3 ]) ],
+        ];
     }
 
     /**
@@ -199,5 +251,42 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
             is_array($expected) ? (new \ReflectionClass($mock))->newInstance($expected) : $expected,
             ($invoke_result instanceof BaseEnumerable) ? $invoke_result() : $invoke_result
         );
+    }
+
+    public function providerEvalLazyChain()
+    {
+        return [
+            [
+                [ 'where', 'select', 'sum' ],
+                12,
+                [ 1, 2, 3, 4, 5 ],
+                [
+                    'where' => [ function ($v) { return $v % 2 === 0; } ],
+                    'select' => [ function ($v) { return $v * 2; } ],
+                    'sum' => [  ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider providerEvalLazyChain
+     */
+    public function testEvalLazyChain($invoke_methods, $expected, $base_list, $bind_params)
+    {
+        $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseEnumerable');
+        $object = (new \ReflectionClass($mock))->newInstance($base_list);
+        $reflector = new \ReflectionClass($object);
+        $invoke_result = null;
+
+        foreach ($invoke_methods as $key => $invoke_method) {
+            $method_reflector = $reflector->getMethod($invoke_method);
+            $method_reflector->setAccessible(true);
+            $invoke_result = $method_reflector->invoke($object, ...$bind_params[$invoke_method]);
+
+            is_object($invoke_result) && $reflector = new \ReflectionClass($invoke_result);
+        }
+
+        $this->assertEquals($expected, $invoke_result);
     }
 }

@@ -29,13 +29,9 @@ abstract class BaseEnumerable implements IEnumerable
         $this->setSourceList($input, $flags, $iterator_class);
     }
 
-    public function __invoke(): self
+    public function __invoke()
     {
-        return $this->setSourceList(
-            $this->evalLazy(),
-            $this->getSourceList()->getFlags(),
-            $this->getSourceList()->getIteratorClass()
-        );
+        return $this->evalLazy();
     }
 
     protected function setSourceList($input, int $flags = 0, string $iterator_class = "ArrayIterator"): self
@@ -79,11 +75,11 @@ abstract class BaseEnumerable implements IEnumerable
 
             unset($this->lazy_eval_list[$key]);
 
-            if (is_array($result_value) !== true) {
+            if ($result_value instanceof \ArrayObject === false) {
                 return $result_value;
             }
 
-            $this->getSourceList()->exchangeArray($result_value);
+            $this->getSourceList()->exchangeArray($result_value->getArrayCopy());
         }
 
         return $this;
@@ -367,74 +363,74 @@ abstract class BaseEnumerable implements IEnumerable
     /**
      * 既定の等値比較子を使用して値を比較することにより、2 つのシーケンスの差集合を生成します。
      *
-     * @param IEnumerable $second 最初のシーケンスにも含まれ、返されたシーケンスからは削除される要素を含むシーケンス
+     * @param BaseEnumerable $second 最初のシーケンスにも含まれ、返されたシーケンスからは削除される要素を含むシーケンス
      *
      * @return IEnumerable 2 つのシーケンスの要素の差集合が格納されているシーケンス
      */
-    public function except(IEnumerable $second): IEnumerable
+    public function except(BaseEnumerable $second): IEnumerable
     {
-        return $this->addToLazyEval(__FUNCTION__, $second);
+        return $this->addToLazyEval(__FUNCTION__, $second->getSourceList());
     }
 
     /**
      * 既定の等値比較子を使用して値を比較することにより、2 つのシーケンスの積集合を生成します。
      *
-     * @param IEnumerable $second 最初のシーケンスにも含まれる、返される一意の要素を含むシーケンス
+     * @param BaseEnumerable $second 最初のシーケンスにも含まれる、返される一意の要素を含むシーケンス
      *
      * @return IEnumerable 2 つのシーケンスの積集合を構成する要素が格納されているシーケンス
      */
-    public function intersect(IEnumerable $second): IEnumerable
+    public function intersect(BaseEnumerable $second): IEnumerable
     {
-        return $this->addToLazyEval(__FUNCTION__, $second);
+        return $this->addToLazyEval(__FUNCTION__, $second->getSourceList());
     }
 
     /**
      * 既定の等値比較子を使用して、2 つのシーケンスの和集合を生成します。
      *
-     * @param IEnumerable $second 和集合の 2 番目のセットを形成する一意の要素を含むシーケンス
+     * @param BaseEnumerable $second 和集合の 2 番目のセットを形成する一意の要素を含むシーケンス
      *
      * @return IEnumerable 2 つの入力シーケンスの要素 (重複する要素は除く) を格納しているシーケンス
      */
-    public function union(IEnumerable $second): IEnumerable
+    public function union(BaseEnumerable $second): IEnumerable
     {
-        return $this->addToLazyEval(__FUNCTION__, $second);
+        return $this->addToLazyEval(__FUNCTION__, $second->getSourceList());
     }
 
     /**
      * 2 つのシーケンスを連結します。
      *
-     * @param IEnumerable $second 最初のシーケンスに連結するシーケンス
+     * @param BaseEnumerable $second 最初のシーケンスに連結するシーケンス
      *
      * @return IEnumerable 2 つの入力シーケンスの連結された要素が格納されているシーケンス
      */
-    public function concat(IEnumerable $second): IEnumerable
+    public function concat(BaseEnumerable $second): IEnumerable
     {
-        return $this->addToLazyEval(__FUNCTION__, $second);
+        return $this->addToLazyEval(__FUNCTION__, $second->getSourceList());
     }
 
     /**
      * 2 つのシーケンスの対応する要素に対して、1 つの指定した関数を適用し、結果として 1 つのシーケンスを生成します。
      *
-     * @param IEnumerable $second      マージする 2 番目のシーケンス
+     * @param BaseEnumerable $second      マージする 2 番目のシーケンス
      * @param \Closure $resultSelector 2 つのシーケンスの要素をマージする方法を指定する関数
      *
      * @return IEnumerable 2 つの入力シーケンスのマージされた要素が格納されているシーケンス
      */
-    public function zip(IEnumerable $second, \Closure $resultSelector): IEnumerable
+    public function zip(BaseEnumerable $second, \Closure $resultSelector): IEnumerable
     {
-        return $this->addToLazyEval(__FUNCTION__, $second, $resultSelector);
+        return $this->addToLazyEval(__FUNCTION__, $second->getSourceList(), $resultSelector);
     }
 
     /**
      * 要素の型に対して既定の等値比較子を使用して要素を比較することで、2 つのシーケンスが等しいかどうかを判断します。
      *
-     * @param IEnumerable $second 最初のシーケンスと比較するシーケンス
+     * @param BaseEnumerable $second 最初のシーケンスと比較するシーケンス
      *
      * @return bool 2 つのソースシーケンスが同じ長さで、それらに対応する要素が等しい場合は true。
      * それ以外の場合は false。
      */
-    public function sequenceEqual(IEnumerable $second): bool
+    public function sequenceEqual(BaseEnumerable $second): bool
     {
-        return $this->addToLazyEval(__FUNCTION__, $second)->evalLazy();
+        return $this->addToLazyEval(__FUNCTION__, $second->getSourceList())->evalLazy();
     }
 }
