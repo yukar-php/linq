@@ -12,7 +12,50 @@ use Yukar\Linq\Interfaces\Enumerable\IEnumerable;
  */
 abstract class BaseEnumerable implements IEnumerable
 {
-    use TCalculation, TInspection, TExtract, TSet;
+    use TCalculation
+    {
+        sumOf as private;
+        averageOf as private;
+        maxOf as private;
+        minOf as private;
+        countOf as private;
+        aggregateOf as private;
+        allOf as private;
+        anyOf as private;
+        containsOf as private;
+        elementAtOf as private;
+        firstOf as private;
+        lastOf as private;
+        singleOf as private;
+        selectOf as private;
+        distinctOf as private;
+        whereOf as private;
+    }
+
+    use TInspection
+    {
+        asEnumerableOf as private;
+        castOf as private;
+        ofTypeOf as private;
+    }
+
+    use TExtract
+    {
+        skipOf as private;
+        skipWhileOf as private;
+        takeOf as private;
+        takeWhileOf as private;
+    }
+
+    use TSet
+    {
+        exceptOf as private;
+        intersectOf as private;
+        unionOf as private;
+        concatOf as private;
+        zipOf as private;
+        sequenceEqualOf as private;
+    }
 
     private $list_object = null;
     private $lazy_eval_list = [];
