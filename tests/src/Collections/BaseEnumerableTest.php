@@ -63,7 +63,6 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
         isset($expectedException) && $this->setExpectedException($expectedException);
 
         $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseEnumerable');
-        $mock->expects($this->any())->method('getSourceList')->will($this->returnValue($expected));
 
         if (isset($param) === true) {
             $setter_invoker = (new \ReflectionClass($mock))->getMethod('setSourceList');
@@ -123,7 +122,6 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
     public function testAddToLazyEval($invoke_method, $expected, $base_list, ...$bind_params)
     {
         $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseEnumerable');
-        $mock->expects($this->any())->method('addToLazyEval')->will($this->returnValue($expected));
 
         $method_invoker = (new \ReflectionClass($mock))->getMethod('addToLazyEval');
         $method_invoker->setAccessible(true);
@@ -151,7 +149,6 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
         ];
 
         $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseEnumerable');
-        $mock->expects($this->any())->method('getLazyEvalList')->will($this->returnValue($expected_list));
         $reflector = new \ReflectionClass($mock);
 
         $add_invoker = $reflector->getMethod('addToLazyEval');
@@ -172,7 +169,6 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
     public function testEvalLazy($invoke_method, $expected, $base_list, ...$bind_params)
     {
         $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseEnumerable');
-        $mock->expects($this->any())->method('evalLazy')->will($this->returnValue($expected));
         $object = (new \ReflectionClass($mock))->newInstance($base_list);
         $reflector = new \ReflectionClass($object);
 
@@ -240,7 +236,6 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
     public function testAllMethodPassed($invoke_method, $expected, $base_list, ...$bind_params)
     {
         $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseEnumerable');
-        $mock->expects($this->any())->method($invoke_method)->will($this->returnValue($expected));
         $object = (new \ReflectionClass($mock))->newInstance($base_list);
 
         $reflector = (new \ReflectionClass($object))->getMethod($invoke_method);

@@ -29,7 +29,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testAll($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('allOf')->will($this->returnValue($expected));
 
         $result = $mock->allOf(new \ArrayObject($param), $predicate);
 
@@ -62,7 +61,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testAny($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('anyOf')->will($this->returnValue($expected));
 
         $result = $mock->anyOf(new \ArrayObject($param), $predicate);
 
@@ -89,7 +87,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testContains($param, $expected, $value)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('containsOf')->will($this->returnValue($expected));
 
         $result = $mock->containsOf(new \ArrayObject($param), $value);
 
@@ -113,7 +110,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testElementAt($param, $expected, $index)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('elementAtOf')->will($this->returnValue($expected));
 
         $result = $mock->elementAtOf(new \ArrayObject($param), $index);
 
@@ -150,7 +146,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testElementAtErrors($expectedException, $param, $index)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('elementAtOf');
 
         $this->setExpectedException($expectedException);
         $mock->elementAtOf(new \ArrayObject($param), $index);
@@ -172,7 +167,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testFirst($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('firstOf')->will($this->returnValue($expected));
 
         $result = $mock->firstOf(new \ArrayObject($param), $predicate);
 
@@ -195,7 +189,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testLast($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('lastOf')->will($this->returnValue($expected));
 
         $result = $mock->lastOf(new \ArrayObject($param), $predicate);
 
@@ -218,7 +211,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testSingle($param, $expected, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('singleOf')->will($this->returnValue($expected));
 
         $result = $mock->singleOf(new \ArrayObject($param), $predicate);
 
@@ -241,7 +233,6 @@ class TSearchTest extends \PHPUnit_Framework_TestCase
     public function testSingleErrors($expectedException, $param, $predicate)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSearch');
-        $mock->expects($this->any())->method('singleOf');
 
         $this->setExpectedException($expectedException);
         $mock->singleOf(new \ArrayObject($param), $predicate);
