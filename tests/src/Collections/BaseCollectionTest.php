@@ -3,6 +3,26 @@ namespace Yukar\Linq\Tests\Collections;
 
 class BaseCollectionTest extends \PHPUnit_Framework_TestCase
 {
+    public function testGetIterator()
+    {
+        $base_list = [ 1, 2, 3, 4, 5 ];
+        $target_index = 2;
+
+        $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseCollection');
+        $object = (new \ReflectionClass($mock))->newInstance($base_list);
+        $reflector = new \ReflectionClass($object);
+
+        $iterator = $reflector->getMethod('getIterator')->invoke($object);
+        $iterator[$target_index] = 30;
+
+        $method_reflector = $reflector->getMethod('getSourceList');
+        $method_reflector->setAccessible(true);
+        $current_source_list = $method_reflector->invoke($object)->getArrayCopy();
+
+        $this->assertNotSame($current_source_list[$target_index], $iterator[$target_index]);
+        $this->assertSame($base_list[$target_index], $current_source_list[$target_index]);
+    }
+
     public function providerAdd()
     {
         $object = new \stdClass();
@@ -48,23 +68,6 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase
         $method_reflector->setAccessible(true);
 
         $this->assertSame($expected, $method_reflector->invoke($object)->getArrayCopy());
-    }
-
-    public function testClear()
-    {
-        $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseCollection');
-        $object = (new \ReflectionClass($mock))->newInstance([ 'str', 1, true, new \stdClass(), null ]);
-        $reflector = new \ReflectionClass($object);
-
-        $reflector->getMethod('add')->invoke($object, function () {
-            return true;
-        });
-        $reflector->getMethod('clear')->invoke($object);
-
-        $method_reflector = $reflector->getMethod('getSourceList');
-        $method_reflector->setAccessible(true);
-
-        $this->assertEmpty($method_reflector->invoke($object)->getArrayCopy());
     }
 
     public function providerContainsItem()
@@ -120,34 +123,6 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase
         $reflector->getMethod('copyTo')->invokeArgs($object, [ &$dst, $copy_count, $copy_start ]);
 
         $this->assertSame($expected, $dst);
-    }
-
-    public function testGetSize()
-    {
-        $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseCollection');
-        $object = (new \ReflectionClass($mock))->newInstance([ 'str', 1, true, new \stdClass(), null ]);
-        $reflector = new \ReflectionClass($object);
-
-        $reflector->getMethod('add')->invoke($object, function () {
-            return true;
-        });
-
-        $method_reflector = $reflector->getMethod('getSourceList');
-        $method_reflector->setAccessible(true);
-
-        $this->assertSame(
-            $method_reflector->invoke($object)->count(),
-            $reflector->getMethod('getSize')->invoke($object)
-        );
-    }
-
-    public function testIsReadOnly()
-    {
-        $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseCollection');
-        $object = (new \ReflectionClass($mock))->newInstance([ 'str', 1, true, new \stdClass(), null ]);
-        $reflector = new \ReflectionClass($object);
-
-        $this->assertFalse($reflector->getMethod('isReadOnly')->invoke($object));
     }
 
     public function providerRemove()

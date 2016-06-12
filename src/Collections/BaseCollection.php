@@ -6,7 +6,7 @@ use Yukar\Linq\Interfaces\Collections\ICollection;
 /**
  * コレクションを操作する機能を提供する抽象クラスです。
  */
-abstract class BaseCollection extends BaseEnumerable implements ICollection
+abstract class BaseCollection extends BaseCommonCollection implements ICollection
 {
     /**
      * Retrieve an external iterator
@@ -18,7 +18,7 @@ abstract class BaseCollection extends BaseEnumerable implements ICollection
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->getSourceList());
+        return new \ArrayIterator($this->getSourceList()->getArrayCopy());
     }
 
     /**
@@ -29,14 +29,6 @@ abstract class BaseCollection extends BaseEnumerable implements ICollection
     public function add($item)
     {
         $this->getSourceList()->append($item);
-    }
-
-    /**
-     * コレクションからすべての項目を削除します。
-     */
-    public function clear()
-    {
-        $this->getSourceList()->exchangeArray([]);
     }
 
     /**
@@ -64,26 +56,6 @@ abstract class BaseCollection extends BaseEnumerable implements ICollection
     }
 
     /**
-     * コレクションに格納されている要素の数を取得します。
-     *
-     * @return number コレクションに格納されている要素の数
-     */
-    public function getSize()
-    {
-        return $this->getSourceList()->count();
-    }
-
-    /**
-     * コレクションが読み取り専用であるかどうかを示す値を取得します。
-     *
-     * @return bool コレクションが読み取り専用である場合は true。それ以外の場合は false。
-     */
-    public function isReadOnly(): bool
-    {
-        return false;
-    }
-
-    /**
      * コレクション内で最初に見つかった特定のオブジェクトを削除します。
      *
      * @param mixed $value コレクションから削除するオブジェクト
@@ -101,25 +73,6 @@ abstract class BaseCollection extends BaseEnumerable implements ICollection
         }
 
         return true;
-    }
-
-    protected function splice(int $index = 0, int $count = null, array $replace_list = [])
-    {
-        $target_list = $this->getSourceList()->getArrayCopy();
-
-        array_splice($target_list, $index, $count, $replace_list);
-
-        return $target_list;
-    }
-
-    protected function slice(int $index = 0, int $count = null, bool $preserve_keys = true): array
-    {
-        return array_slice($this->getSourceList()->getArrayCopy(), $index, $count, $preserve_keys);
-    }
-
-    protected function reversal($list, bool $is_reversed = true, bool $preserve_keys = true): array
-    {
-        return ($is_reversed === true) ? array_reverse($list, $preserve_keys) : $list;
     }
 
     protected function getIndexOf($value, int $index = 0, int $length = null, bool $is_reversed = false): int
