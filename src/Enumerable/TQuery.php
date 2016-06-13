@@ -45,8 +45,7 @@ trait TQuery
      * @param \Closure $predicate 各ソース要素が条件に当てはまるかどうかをテストする関数。
      *                            この関数の 2 つ目のパラメーターは、ソース要素のインデックスを表します。
      *
-     * @return \ArrayObject 各ソース要素が条件に当てはまるかどうかをテストする関数。
-     * この関数の 2 つ目のパラメーターは、ソース要素のインデックスを表します。
+     * @return \ArrayObject 条件を満たす、入力シーケンスの要素を含むシーケンス
      */
     public function whereOf(\ArrayObject $source, \Closure $predicate): \ArrayObject
     {

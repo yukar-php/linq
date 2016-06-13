@@ -27,7 +27,6 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('asEnumerableOf')->will($this->returnValue($expected));
 
         $result = $mock->asEnumerableOf(new \ArrayObject($param));
 
@@ -52,7 +51,6 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('castOf')->will($this->returnValue($expected));
 
         $result = $mock->castOf(new \ArrayObject($source), $type);
 
@@ -75,7 +73,6 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
     public function testCastErrors($expectedException, $source, $type)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('castOf');
 
         $this->setExpectedException($expectedException);
         $mock->castOf(new \ArrayObject($source), $type);
@@ -98,7 +95,6 @@ class TInspectionTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TInspection');
-        $mock->expects($this->any())->method('ofTypeOf')->will($this->returnValue($expected));
 
         $result = $mock->ofTypeOf(new \ArrayObject($source), $type);
 

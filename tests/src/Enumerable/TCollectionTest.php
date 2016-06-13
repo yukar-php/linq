@@ -6,7 +6,6 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
     public function testEmptyList()
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCollection');
-        $mock->expects($this->any())->method('emptyList')->will($this->returnValue(new \ArrayObject([])));
 
         $result = $mock->emptyList();
 
@@ -27,7 +26,6 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGenerateRange($start, $count, $expected)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCollection');
-        $mock->expects($this->any())->method('range')->will($this->returnValue($expected));
 
         $result = $mock->range($start, $count);
 
@@ -60,7 +58,6 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGenerateRangeErrors($expectedException, $start, $count)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCollection');
-        $mock->expects($this->any())->method('range');
 
         $this->setExpectedException($expectedException);
         $mock->range($start, $count);
@@ -88,7 +85,6 @@ class TCollectionTest extends \PHPUnit_Framework_TestCase
     public function testRepeat($element, $count, $expected)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCollection');
-        $mock->expects($this->any())->method('repeat')->will($this->returnValue($expected));
 
         $result = $mock->repeat($element, $count);
 
