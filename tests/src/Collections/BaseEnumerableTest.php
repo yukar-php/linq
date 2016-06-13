@@ -2,6 +2,7 @@
 namespace Yukar\Linq\Tests\Collections;
 
 use Yukar\Linq\Collections\BaseEnumerable;
+use Yukar\Linq\Collections\DictionaryObject;
 use Yukar\Linq\Collections\ListObject;
 
 class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
@@ -248,6 +249,47 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function providerConvertMethodPassed()
+    {
+        return [
+            [ 'toArray', [ 1, 2, 3, 4, 5 ], [ 1, 2, 3, 4, 5 ] ],
+            [ 'toList', new ListObject([ 1, 2, 3, 4, 5 ]), [ 1, 2, 3, 4, 5 ] ],
+            [
+                'toDictionary',
+                new DictionaryObject([ 'selector_str1' => 1, 'selector_str2' => 2 ]),
+                [ 'str1' => 1, 'str2' => 2 ],
+                function ($key) {
+                    return "selector_{$key}";
+                }
+            ],
+            [
+                'toDictionary',
+                new DictionaryObject([ 'selector_str1' => 2, 'selector_str2' => 4 ]),
+                [ 'str1' => 1, 'str2' => 2 ],
+                function ($key) {
+                    return "selector_{$key}";
+                },
+                function ($value) {
+                    return $value * 2;
+                }
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providerConvertMethodPassed
+     */
+    public function testConvertMethodPassed($invoke_method, $expected, $base_list, ...$bind_params)
+    {
+        $mock = $this->getMockForAbstractClass('Yukar\Linq\Collections\BaseEnumerable');
+        $object = (new \ReflectionClass($mock))->newInstance($base_list);
+
+        $reflector = (new \ReflectionClass($object))->getMethod($invoke_method);
+        $invoke_result = $reflector->invoke($object, ...$bind_params);
+
+        $this->assertEquals($expected, $invoke_result);
+    }
+
     public function providerEvalLazyChain()
     {
         return [
@@ -259,6 +301,16 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
                     'where' => [ function ($v) { return $v % 2 === 0; } ],
                     'select' => [ function ($v) { return $v * 2; } ],
                     'sum' => [  ]
+                ]
+            ],
+            [
+                [ 'where', 'select', 'toArray' ],
+                [ 4, 8 ],
+                [ 1, 2, 3, 4, 5 ],
+                [
+                    'where' => [ function ($v) { return $v % 2 === 0; } ],
+                    'select' => [ function ($v) { return $v * 2; } ],
+                    'toArray' => [  ]
                 ]
             ]
         ];

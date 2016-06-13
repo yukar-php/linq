@@ -122,6 +122,7 @@ abstract class BaseEnumerable implements IEnumerable
                 return $result_value;
             }
 
+            /** @var \ArrayObject $result_value */
             $this->getSourceList()->exchangeArray($result_value->getArrayCopy());
         }
 
@@ -475,5 +476,44 @@ abstract class BaseEnumerable implements IEnumerable
     public function sequenceEqual(BaseEnumerable $second): bool
     {
         return $this->addToLazyEval(__FUNCTION__, $second->getSourceList())->evalLazy();
+    }
+
+    /**
+     * シーケンスから新しい配列を作成します。
+     *
+     * @return array シーケンスから作成した新しい配列
+     */
+    public function toArray(): array
+    {
+        return $this->evalLazy()->getSourceList()->getArrayCopy();
+    }
+
+    /**
+     * シーケンスから新しいリストを作成します。
+     *
+     * @return ListObject シーケンスから作成した新しいリスト
+     */
+    public function toList(): ListObject
+    {
+        return new ListObject($this->evalLazy()->getSourceList()->getArrayCopy());
+    }
+
+    /**
+     * シーケンスから新しい連想リストを作成します。
+     *
+     * @param \Closure $key_selector   各要素からキーを抽出する関数
+     * @param \Closure $value_selector 各要素から値を抽出する関数
+     *
+     * @return DictionaryObject シーケンスから作成した新しい連想リスト
+     */
+    public function toDictionary(\Closure $key_selector, \Closure $value_selector = null): DictionaryObject
+    {
+        $dic_list = [];
+
+        foreach ($this->evalLazy()->getSourceList() as $key => $value) {
+            $dic_list[$key_selector($key)] = isset($value_selector) ? $value_selector($value) : $value;
+        }
+
+        return new DictionaryObject($dic_list);
     }
 }
