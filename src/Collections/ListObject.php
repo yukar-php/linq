@@ -7,6 +7,16 @@ namespace Yukar\Linq\Collections;
 class ListObject extends BaseList
 {
     /**
+     * ListObject クラスの新しいインスタンスを初期化します。
+     *
+     * @param array $input 初期化時に保持する要素のリスト
+     */
+    public function __construct(array $input = [])
+    {
+        parent::__construct($input);
+    }
+
+    /**
      * 指定したコレクションの要素をコレクションの末尾に追加します。
      *
      * @param array|\Traversable $collection コレクションの末尾に要素が追加されるコレクション
@@ -257,20 +267,6 @@ class ListObject extends BaseList
         $this->getSourceList()->exchangeArray(
             $this->splice(0, $this->calcLength(0), $this->getSourceList()->getArrayCopy())
         );
-    }
-
-    /**
-     * コレクションの全ての要素を新しい配列にコピーします。
-     *
-     * @return array コレクションの全ての要素のコピーを格納する配列
-     */
-    public function toArray(): array
-    {
-        $list = [];
-
-        $this->copyTo($list);
-
-        return $list;
     }
 
     /**

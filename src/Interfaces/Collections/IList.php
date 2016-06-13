@@ -4,7 +4,7 @@ namespace Yukar\Linq\Interfaces\Collections;
 /**
  * インデックスによって個別にアクセスできるオブジェクトのコレクションを表します。
  */
-interface IList extends \ArrayAccess
+interface IList extends ICollection, \ArrayAccess
 {
     /**
      * 指定した項目のコレクション内でのインデックスを調べます。
