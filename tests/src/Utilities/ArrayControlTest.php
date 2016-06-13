@@ -134,6 +134,8 @@ class ArrayControlTest extends \PHPUnit_Framework_TestCase
             [ false, [], [ 1, 'x', 2, 'y', 3, 'z' ], [] ],
             [ true, [ 'a', 'b' ], function () { return [ 2 => 1 ]; }, [ 'a', 'b', 1 ] ],
             [ false, [ 1, 2 ], function () { return [ 'x' ]; }, [ 1, 2 ] ],
+            [ true, [], [ null ], [] ],
+            [ true, [], [ -1 => 1, -2 => 2, -3 => 3 ], [ 1, 2, 3 ] ],
         ];
     }
 
