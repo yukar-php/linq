@@ -31,7 +31,6 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('exceptOf')->will($this->returnValue($expected));
 
         $result = $mock->exceptOf(new \ArrayObject($param), new \ArrayObject($second));
 
@@ -66,7 +65,6 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('intersectOf')->will($this->returnValue($expected));
 
         $result = $mock->intersectOf(new \ArrayObject($param), new \ArrayObject($second));
 
@@ -101,7 +99,6 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('unionOf')->will($this->returnValue($expected));
 
         $result = $mock->unionOf(new \ArrayObject($param), new \ArrayObject($second));
 
@@ -136,7 +133,6 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('concatOf')->will($this->returnValue($expected));
 
         $result = $mock->concatOf(new \ArrayObject($param), new \ArrayObject($second));
 
@@ -169,7 +165,6 @@ class TSetTest extends \PHPUnit_Framework_TestCase
         $expected = new \ArrayObject($expectedParam);
 
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('zipOf')->will($this->returnValue($expected));
 
         $result = $mock->zipOf(new \ArrayObject($param), new \ArrayObject($second), $resultSelector);
 
@@ -204,7 +199,6 @@ class TSetTest extends \PHPUnit_Framework_TestCase
     public function testSequenceEqual($param, $second, $expected)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TSet');
-        $mock->expects($this->any())->method('sequenceEqualOf')->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $mock->sequenceEqualOf(new \ArrayObject($param), new \ArrayObject($second)));
     }

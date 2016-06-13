@@ -25,9 +25,17 @@
     </logging>
 
     <filter>
+        <!-- コードカバレッジ測定に含める -->
+        <whitelist>
+            <directory>src</directory>
+            <exclude>
+                <directory>src/Interfaces</directory>
+            </exclude>
+        </whitelist>
         <!-- コードカバレッジ測定対象から除外 -->
         <blacklist>
-            <directory suffix=".php">vendor</directory>
+            <directory>vendor</directory>
+            <directory>tests</directory>
         </blacklist>
     </filter>
 </phpunit>

@@ -29,7 +29,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testSum($param, $expected, $selector = null)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('sumOf')->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $mock->sumOf(new \ArrayObject($param), $selector));
     }
@@ -54,7 +53,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testSumErrors($expectedException, $param)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('sumOf');
 
         $this->setExpectedException($expectedException);
         $mock->sumOf(new \ArrayObject($param));
@@ -86,7 +84,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testAverage($param, $expected, $selector = null)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('averageOf')->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $mock->averageOf(new \ArrayObject($param), $selector));
     }
@@ -111,7 +108,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testAverageErrors($expectedException, $param)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('averageOf');
 
         $this->setExpectedException($expectedException);
         $mock->averageOf(new \ArrayObject($param));
@@ -143,7 +139,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testMax($param, $expected, $selector = null)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('maxOf')->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $mock->maxOf(new \ArrayObject($param), $selector));
     }
@@ -168,7 +163,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testMaxErrors($expectedException, $param)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('maxOf');
 
         $this->setExpectedException($expectedException);
         $mock->maxOf(new \ArrayObject($param));
@@ -200,7 +194,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testMin($param, $expected, $selector = null)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('minOf')->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $mock->minOf(new \ArrayObject($param), $selector));
     }
@@ -225,7 +218,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testMinErrors($expectedException, $param)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('minOf');
 
         $this->setExpectedException($expectedException);
         $mock->minOf(new \ArrayObject($param));
@@ -255,7 +247,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testCount($param, $expected, $predicate = null)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('countOf')->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $mock->countOf(new \ArrayObject($param), $predicate));
     }
@@ -282,7 +273,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testAggregate($param, $expected, $func)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('aggregateOf')->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $mock->aggregateOf(new \ArrayObject($param), $func));
     }
@@ -311,7 +301,6 @@ class TCalculationTest extends \PHPUnit_Framework_TestCase
     public function testAggregateErrors($expectedException, $param, $func)
     {
         $mock = $this->getMockForTrait('Yukar\Linq\Enumerable\TCalculation');
-        $mock->expects($this->any())->method('aggregateOf');
 
         $this->setExpectedException($expectedException);
         $mock->aggregateOf(new \ArrayObject($param), $func);
