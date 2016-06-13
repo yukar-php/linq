@@ -22,6 +22,7 @@ class DictionaryIterator extends \ArrayIterator
         $converted_list = [];
         $is_key_value_pair = (count($list) > 0 && reset($list) instanceof KeyValuePair);
 
+        /** @var KeyValuePair $value */
         foreach ($list as $key => $value) {
             $convert_key = $is_key_value_pair ? $value->getKey() : $key;
             $convert_value = $is_key_value_pair ? $value->getValue() : $value;
