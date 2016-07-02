@@ -167,7 +167,7 @@ abstract class BaseList extends BaseCollection implements IList
     protected function getItemAtRange($range, \Closure $closure)
     {
         foreach ($range as $key => $value) {
-            if ($closure->call($this, $value) === true) {
+            if ($closure($value) === true) {
                 return [ 'key' => $key, 'value' => $value ];
             }
         }
