@@ -135,7 +135,7 @@ class ListObject extends BaseList
     public function walk(\Closure $action)
     {
         foreach ($this as $value) {
-            $action->call($this, $value);
+            $action($value);
         }
     }
 
@@ -279,7 +279,7 @@ class ListObject extends BaseList
     public function trueForAll(\Closure $match): bool
     {
         foreach ($this->getSourceList() as $key => $value) {
-            if ($match->call($this, $value) !== true) {
+            if ($match($value) !== true) {
                 return false;
             }
         }
@@ -292,7 +292,7 @@ class ListObject extends BaseList
         $matched_list = [];
 
         foreach ($this as $key => $value) {
-            ($match->call($this, $value) === $is_matched) && $matched_list[] = $value;
+            ($match($value) === $is_matched) && $matched_list[] = $value;
         }
 
         return $matched_list;
