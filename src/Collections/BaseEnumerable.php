@@ -113,8 +113,14 @@ abstract class BaseEnumerable implements IEnumerable
 
     protected function evalLazy()
     {
+        /** @var BaseEnumerable $eval_object */
+        $eval_object = (new \ReflectionClass($this))->newInstanceWithoutConstructor();
+        $invoker = (new \ReflectionClass($eval_object))->getMethod('setSourceList');
+        $invoker->setAccessible(true);
+        $invoker->invoke($eval_object, $this->getSourceList());
+
         foreach ($this->getLazyEvalList() as $key => $lazy_eval_method) {
-            $result_value = $lazy_eval_method($this);
+            $result_value = $lazy_eval_method($eval_object);
 
             unset($this->lazy_eval_list[$key]);
 
@@ -123,10 +129,10 @@ abstract class BaseEnumerable implements IEnumerable
             }
 
             /** @var \ArrayObject $result_value */
-            $this->getSourceList()->exchangeArray($result_value->getArrayCopy());
+            $eval_object->getSourceList()->exchangeArray($result_value->getArrayCopy());
         }
 
-        return $this;
+        return $eval_object;
     }
 
     /**
