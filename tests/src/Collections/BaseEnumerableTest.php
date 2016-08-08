@@ -175,19 +175,28 @@ class BaseEnumerableTest extends \PHPUnit_Framework_TestCase
 
         $add_invoker = $reflector->getMethod('addToLazyEval');
         $eval_invoker = $reflector->getMethod('evalLazy');
+        $prop_reflector = $reflector->getParentClass()->getProperty('list_object');
         $add_invoker->setAccessible(true);
         $eval_invoker->setAccessible(true);
+        $prop_reflector->setAccessible(true);
         $add_invoker->invoke($object, $invoke_method, ...$bind_params);
+        $before_prop = $prop_reflector->getValue($object);
         $eval_result = $eval_invoker->invoke($object);
+        $after_prop = $prop_reflector->getValue($object);
+
+        self::assertSame($before_prop, $after_prop);
 
         if (is_scalar($eval_result) === false) {
-            $prop_reflector = $reflector->getParentClass()->getProperty('list_object');
-            $prop_reflector->setAccessible(true);
+            self::assertInstanceOf('Yukar\Linq\Collections\BaseEnumerable', $eval_result);
 
-            $this->assertInstanceOf('Yukar\Linq\Collections\BaseEnumerable', $eval_result);
-            $this->assertEquals(new \ArrayObject($expected), $prop_reflector->getValue($object));
+            $get_after_invoker = (new \ReflectionClass($eval_result))->getMethod('getSourceList');
+            $get_after_invoker->setAccessible(true);
+            $after_get = $get_after_invoker->invoke($eval_result)->getArrayCopy();
+
+            self::assertNotEquals($before_prop, $after_get);
+            self::assertEquals($expected, $after_get);
         } else {
-            $this->assertEquals($expected, $eval_result);
+            self::assertEquals($expected, $eval_result);
         }
     }
 
